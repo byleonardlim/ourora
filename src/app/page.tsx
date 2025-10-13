@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useRef } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -51,6 +51,7 @@ function TestimonialFigure({ text, className = "" }: { text: string; className?:
 }
 
 export default function Home() {
+  const [showCTA, setShowCTA] = useState(false);
   const section2Ref = useRef<HTMLDivElement | null>(null);
   const section3Ref = useRef<HTMLDivElement | null>(null);
   const section4Ref = useRef<HTMLDivElement | null>(null);
@@ -74,6 +75,22 @@ export default function Home() {
   ];
 
   useEffect(() => {
+    const updateCTAVisibility = () => {
+      const doc = document.documentElement;
+      const scrollTop = window.pageYOffset || doc.scrollTop || 0;
+      const scrollable = Math.max(0, doc.scrollHeight - doc.clientHeight);
+      if (scrollable === 0) {
+        setShowCTA(false);
+        return;
+      }
+      const progress = scrollTop / scrollable;
+      setShowCTA(progress >= 0.2);
+    };
+
+    updateCTAVisibility();
+    window.addEventListener("scroll", updateCTAVisibility, { passive: true });
+    window.addEventListener("resize", updateCTAVisibility);
+
     const ctx = gsap.context(() => {
       // Header highlight sweep (imitates a real marker stroke) tied to scroll position
       if (headerHighlightRef.current) {
@@ -173,13 +190,43 @@ export default function Home() {
       }
     });
 
-    return () => ctx.revert();
+    return () => {
+      window.removeEventListener("scroll", updateCTAVisibility);
+      window.removeEventListener("resize", updateCTAVisibility);
+      ctx.revert();
+    };
   }, []);
 
   return (
     <div className="min-h-screen bg-white text-gray-900">
+      {/* Floating CTA Bar */}
+      <div
+        className={[
+          "fixed inset-x-0 bottom-4 z-50 transition-all duration-300 ease-out",
+          showCTA ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none",
+        ].join(" ")}
+        aria-hidden={!showCTA}
+      >
+        <div className="mx-auto w-full max-w-4xl px-4">
+          <div className="rounded-xl border border-gray-200 bg-white/90 backdrop-blur shadow-lg">
+            <div className="flex items-center justify-between gap-4 p-3">
+              <p className="text-sm sm:text-base text-gray-700">
+                Ready to begin? Take the first step.
+              </p>
+              <a
+                href="#"
+                target="_blank"
+                rel="noopener noreferrer"
+                className="inline-flex items-center justify-center rounded-lg bg-black px-4 py-2 text-white text-sm sm:text-base font-semibold shadow hover:bg-gray-800 focus:outline-none focus-visible:ring-2 focus-visible:ring-offset-2 focus-visible:ring-black"
+              >
+                Discover your story
+              </a>
+            </div>
+          </div>
+        </div>
+      </div>
       {/* Hero Section */}
-      <section className="max-w-4xl mx-auto min-h-dvh flex items-center justify-center px-6 sm:px-12">
+      <section className="max-w-4xl mx-auto min-h-screen flex items-center justify-center px-6 sm:px-12">
           <h1 className="text-4xl lg:text-7xl font-bold tracking-tight leading-tight">
             Because Your Future Shouldn&#39;t Feel Like a Deadline
           </h1>
@@ -198,7 +245,7 @@ export default function Home() {
       </section>
 
       {/* From Others Header Section */}
-      <section className="max-w-4xl mx-auto min-h-dvh flex items-center justify-center px-12 lg:px-6">
+      <section className="max-w-4xl mx-auto min-h-screen flex items-center justify-center px-12 lg:px-6">
            <h2 className="text-4xl lg:text-7xl font-bold mb-6">
              <span ref={headerHighlightRef} className="highlight-sweep">
                So we started by listening to thousands of women who&apos;ve walked this path before you.
@@ -207,7 +254,7 @@ export default function Home() {
       </section>
 
       {/* From Others Section */}
-      <section ref={section3Ref} className=" max-w-4xl mx-auto min-h-dvh flex items-center justify-center px-6 px-12 lg:py-32">
+      <section ref={section3Ref} className=" max-w-4xl mx-auto min-h-screen flex items-center justify-center px-6 px-12 lg:py-32">
         <div className="grid gap-6 lg:gap-4 sm:grid-cols-2">
           {testimonials.map((t, i) => (
             <TestimonialFigure key={i} text={t.text} className={t.className} />
@@ -215,7 +262,7 @@ export default function Home() {
         </div>
       </section>
 
-      <section ref={section4Ref} className="max-w-4xl mx-auto min-h-dvh flex items-center justify-center px-6 sm:px-12 py-32">
+      <section ref={section4Ref} className="max-w-4xl mx-auto min-h-screen flex items-center justify-center px-6 sm:px-12 py-32">
         <Paragraph
           className="text-2xl lg:text-5xl leading-8 lg:leading-16 text-gray-700 mb-4"
           text="Aura is created to be your personal guide through the beautiful mess of modern fertility — where logic meets longing, and clarity becomes the most loving gift you can give yourself. We built it for women who don't just want their numbers — they want to understand their story."
@@ -223,7 +270,7 @@ export default function Home() {
       </section>
 
       {/* From Others Header Section */}
-      <section className="max-w-4xl mx-auto min-h-dvh flex items-center justify-center px-6 sm:px-12">
+      <section className="max-w-4xl mx-auto min-h-screen flex items-center justify-center px-6 sm:px-12">
            <h2 className="text-4xl lg:text-7xl font-bold mb-6">
              <span ref={headerHighlightRef2} className="highlight-sweep">
                Every line of Aura&#39;s design — every screen, every word — carries those stories.
