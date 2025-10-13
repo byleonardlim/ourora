@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { Geist, Geist_Mono } from "next/font/google";
+import { Geist, Geist_Mono, Lora, Nunito } from "next/font/google";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -10,6 +10,29 @@ const geistSans = Geist({
 const geistMono = Geist_Mono({
   variable: "--font-geist-mono",
   subsets: ["latin"],
+});
+
+// Body text: keep weights minimal (adjust as needed)
+const nunito = Nunito({
+  variable: "--font-nunito",
+  subsets: ["latin"],
+  weight: ["400","600"],        // keep lean
+  display: "swap",
+  preload: true,
+  adjustFontFallback: true,
+  fallback: ["system-ui","Segoe UI","Roboto","Helvetica","Arial"],
+});
+
+// Headers: preload only the weights/styles you use (e.g., 700, 400 italic)
+const lora = Lora({
+  variable: "--font-lora",
+  subsets: ["latin"],
+  weight: ["700","600","500","400"], // supported Lora weights; use 700 for headings
+  style: ["normal"],              // keep minimal; add italic only if used
+  display: "swap",
+  preload: true,                // ensures early fetch
+  adjustFontFallback: true,
+  fallback: ["Georgia","Times New Roman","Times","serif"],
 });
 
 export const metadata: Metadata = {
@@ -25,7 +48,7 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased`}
+        className={`${nunito.variable} ${lora.variable} antialiased`}
       >
         {children}
       </body>
