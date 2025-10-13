@@ -93,7 +93,7 @@ export default function Home() {
       if (section2Ref.current) {
         const words = Array.from(section2Ref.current.querySelectorAll<HTMLSpanElement>(".word"));
         if (words.length > 0) {
-          gsap.set(words, { display: "inline-block", filter: "blur(6px)", opacity: 0 });
+          gsap.set(words, { filter: "blur(6px)", opacity: 0 });
           gsap.to(words, {
             filter: "blur(0px)",
             opacity: 1,
@@ -115,7 +115,6 @@ export default function Home() {
       if (section3Ref.current) {
         const words = Array.from(section3Ref.current.querySelectorAll<HTMLSpanElement>(".word"));
         if (words.length > 0) {
-          gsap.set(words, { display: "inline-block" });
           gsap.from(words, {
             opacity: 0,
             y: 8,
@@ -154,7 +153,7 @@ export default function Home() {
       if (section4Ref.current) {
         const words = Array.from(section4Ref.current.querySelectorAll<HTMLSpanElement>(".word"));
         if (words.length > 0) {
-          gsap.set(words, { display: "inline-block", filter: "blur(6px)", opacity: 0, y: 6 });
+          gsap.set(words, { filter: "blur(6px)", opacity: 0, y: 6 });
           gsap.to(words, {
             filter: "blur(0px)",
             opacity: 1,

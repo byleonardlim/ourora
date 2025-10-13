@@ -54,3 +54,11 @@ code, pre, kbd, samp {
   -webkit-box-decoration-break: clone;
   padding: 0 0.04em;
 }
+
+/* Stabilize per-word animation spans to prevent layout shifts during scroll */
+.word {
+  display: inline-block;
+  vertical-align: baseline;
+  backface-visibility: hidden;
+  will-change: transform, opacity, filter;
+}
