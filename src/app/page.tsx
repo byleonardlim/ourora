@@ -227,7 +227,7 @@ export default function Home() {
       <section className="max-w-4xl mx-auto min-h-dvh flex items-center justify-center px-6 sm:px-12">
            <h2 className="text-4xl lg:text-7xl font-bold mb-6">
              <span ref={headerHighlightRef2} className="highlight-sweep">
-               Every line of Aura's design — every screen, every word — carries those stories.
+               Every line of Aura&#39;s design — every screen, every word — carries those stories.
              </span>
            </h2>
       </section>
