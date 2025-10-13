@@ -35,14 +35,14 @@ function Paragraph({ text, className = "" }: { text: string; className?: string 
 }
 
 function TestimonialFigure({ text, className = "" }: { text: string; className?: string }) {
-  const base = "relative rounded-lg border border-gray-200 bg-white p-8 shadow-lg";
+  const base = "relative rounded-lg border border-gray-200 bg-white p-8";
   const cls = [base, className].filter(Boolean).join(" ");
   return (
     <figure className={cls}>
       <span aria-hidden className="absolute -top-8 left-8 text-9xl leading-none text-gray-200">&ldquo;</span>
       <blockquote>
         <Paragraph
-          className="text-2xl lg:text-3xl leading-8 text-gray-800 font-bold"
+          className="text-2xl lg:text-5xl leading-8 lg:leading-16 text-gray-800 font-bold"
           text={text}
         />
       </blockquote>
@@ -55,6 +55,7 @@ export default function Home() {
   const section3Ref = useRef<HTMLDivElement | null>(null);
   const section4Ref = useRef<HTMLDivElement | null>(null);
   const headerHighlightRef = useRef<HTMLSpanElement | null>(null);
+  const headerHighlightRef2 = useRef<HTMLSpanElement | null>(null);
 
   const testimonials = [
     {
@@ -149,42 +150,25 @@ export default function Home() {
         }
       }
 
-      // Section 3: two paragraphs, randomly animate selected words with varied effects
+      // Section 4: animate ALL words with blur->sharp reveal, tied to scroll (stops when scrolling stops)
       if (section4Ref.current) {
         const words = Array.from(section4Ref.current.querySelectorAll<HTMLSpanElement>(".word"));
         if (words.length > 0) {
-          // pick ~15% of words for animation (at least 6, capped at 20)
-          const targetCount = Math.min(20, Math.max(6, Math.round(words.length * 0.15)));
-          const indices = new Set<number>();
-          while (indices.size < targetCount) {
-            indices.add(Math.floor(Math.random() * words.length));
-          }
-          const chosen = Array.from(indices).map((i) => words[i]);
-
-          chosen.forEach((el) => {
-            // allow transforms on inline text
-            gsap.set(el, { display: "inline-block" });
-            const effects = [
-              { from: { yPercent: 120, opacity: 0 }, to: { yPercent: 0, opacity: 1 } },
-              { from: { rotation: -10, opacity: 0 }, to: { rotation: 0, opacity: 1 } },
-              { from: { scale: 0.85, opacity: 0 }, to: { scale: 1, opacity: 1 } },
-              { from: { y: 16, color: "#6b7280" }, to: { y: 0, color: "#111827" } },
-            ];
-            const fx = effects[Math.floor(Math.random() * effects.length)];
-            gsap.fromTo(
-              el,
-              fx.from as gsap.TweenVars,
-              {
-                ...(fx.to as gsap.TweenVars),
-                duration: 0.6,
-                ease: "power2.out",
-                scrollTrigger: {
-                  trigger: el,
-                  start: "top 85%",
-                  toggleActions: "play none none reverse",
-                },
-              }
-            );
+          gsap.set(words, { display: "inline-block", filter: "blur(6px)", opacity: 0, y: 6 });
+          gsap.to(words, {
+            filter: "blur(0px)",
+            opacity: 1,
+            y: 0,
+            duration: 0.6,
+            ease: "power2.out",
+            stagger: { each: 0.02, from: "random" },
+            scrollTrigger: {
+              trigger: section4Ref.current,
+              start: "top 80%",
+              end: "bottom center",
+              scrub: true,
+              invalidateOnRefresh: true,
+            },
           });
         }
       }
@@ -196,7 +180,7 @@ export default function Home() {
   return (
     <div className="min-h-screen bg-white text-gray-900">
       {/* Hero Section */}
-      <section className="max-w-4xl mx-auto min-h-screen flex items-center justify-center px-6 sm:px-12">
+      <section className="max-w-4xl mx-auto min-h-dvh flex items-center justify-center px-6 sm:px-12">
           <h1 className="text-4xl lg:text-7xl font-bold tracking-tight leading-tight">
             Because Your Future Shouldn&#39;t Feel Like a Deadline
           </h1>
@@ -205,17 +189,17 @@ export default function Home() {
       <section ref={section2Ref} className="min-h-screen px-6 sm:px-12 py-32 max-w-4xl mx-auto">
         <h2 className="text-4xl lg:text-5xl font-bold mb-6">You are not alone</h2>
         <Paragraph
-          className="text-2xl lg:text-4xl leading-8 lg:leading-16 text-gray-700 mb-4"
+          className="text-2xl lg:text-5xl leading-8 lg:leading-16 text-gray-700 mb-4"
           text="2 years ago, Nicole, the founder, had to go through the process feeling isolated, pressured by social standards, and overwhelmed by millions of pieces of information that were isolated and unhelpful in sourcing the facts. Even after going through the process, the hormone changes continued to affect her for more than 6 months, leading to suicidal thoughts. "
         />
         <Paragraph
-          className="text-2xl lg:text-4xl leading-8 lg:leading-16 text-gray-700 mb-4"
+          className="text-2xl lg:text-5xl leading-8 lg:leading-16 text-gray-700 mb-4"
           text="As she encountered more and more women seeking her guidance on procedures, Nicole realized that many had faced similar challenges. So she decided to create a solution that would eliminate as many obstacles as possible for others in her position. Because hey, this patriarchal system wouldn’t care less about the egg freezing, we can step up to change it and make life easier for all women."
         />
       </section>
 
       {/* From Others Header Section */}
-      <section className="max-w-4xl mx-auto min-h-screen flex items-center justify-center px-6 sm:px-12">
+      <section className="max-w-4xl mx-auto min-h-dvh flex items-center justify-center px-12 lg:px-6">
            <h2 className="text-4xl lg:text-7xl font-bold mb-6">
              <span ref={headerHighlightRef} className="highlight-sweep">
                So we started by listening to thousands of women who&apos;ve walked this path before you.
@@ -224,25 +208,28 @@ export default function Home() {
       </section>
 
       {/* From Others Section */}
-      <section ref={section3Ref} className="min-h-screen px-6 sm:px-12 py-32 max-w-4xl mx-auto">
-        <div className="grid gap-6 sm:gap-8 sm:grid-cols-2">
+      <section ref={section3Ref} className=" max-w-4xl mx-auto min-h-dvh flex items-center justify-center px-6 px-12 lg:py-32">
+        <div className="grid gap-6 lg:gap-4 sm:grid-cols-2">
           {testimonials.map((t, i) => (
             <TestimonialFigure key={i} text={t.text} className={t.className} />
           ))}
         </div>
       </section>
 
-      <section ref={section4Ref} className="min-h-screen px-6 sm:px-12 py-32 bg-gray-50 border-t border-gray-100">
-        <div className="max-w-4xl mx-auto">
-          <Paragraph
-            className="text-xl leading-8 text-gray-700 mb-4"
-            text="We created Aura to be your personal guide through the beautiful mess of modern fertility — where logic meets longing, and clarity becomes the most loving gift you can give yourself. We built it for women who don't just want their numbers — they want to understand their story."
-          />
-          <Paragraph
-            className="text-xl leading-8 text-gray-700"
-            text="Every line of Aura's design — every screen, every word — carries those stories."
-          />
-        </div>
+      <section ref={section4Ref} className="max-w-4xl mx-auto min-h-dvh flex items-center justify-center px-6 sm:px-12 py-32">
+        <Paragraph
+          className="text-2xl lg:text-5xl leading-8 lg:leading-16 text-gray-700 mb-4"
+          text="Aura is created to be your personal guide through the beautiful mess of modern fertility — where logic meets longing, and clarity becomes the most loving gift you can give yourself. We built it for women who don't just want their numbers — they want to understand their story."
+        />
+      </section>
+
+      {/* From Others Header Section */}
+      <section className="max-w-4xl mx-auto min-h-dvh flex items-center justify-center px-6 sm:px-12">
+           <h2 className="text-4xl lg:text-7xl font-bold mb-6">
+             <span ref={headerHighlightRef2} className="highlight-sweep">
+               Every line of Aura's design — every screen, every word — carries those stories.
+             </span>
+           </h2>
       </section>
     </div>
   );
