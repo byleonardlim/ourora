@@ -37,3 +37,20 @@ code, pre, kbd, samp {
     font-family: var(--font-heading), system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
   }
 }
+
+/* Marker-style highlight sweep that grows with --hl (0% -> 100%) */
+.highlight-sweep {
+  position: relative;
+  display: inline;
+  /* Use a layered background for subtle texture + solid marker fill */
+  background-image:
+    linear-gradient(0deg, rgba(254, 240, 138, 0.92), rgba(254, 240, 138, 0.92));
+  background-repeat: no-repeat;
+  /* width controlled by --hl, height approximates a highlighter stroke */
+  background-size: var(--hl, 0%) 0.7em;
+  /* position the stroke to sit behind the text baseline, works across lines */
+  background-position: 0 0.7em;
+  box-decoration-break: clone;
+  -webkit-box-decoration-break: clone;
+  padding: 0 0.04em;
+}

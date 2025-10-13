@@ -34,13 +34,61 @@ function Paragraph({ text, className = "" }: { text: string; className?: string 
   );
 }
 
+function TestimonialFigure({ text, className = "" }: { text: string; className?: string }) {
+  const base = "relative rounded-lg border border-gray-200 bg-white p-8 shadow-lg";
+  const cls = [base, className].filter(Boolean).join(" ");
+  return (
+    <figure className={cls}>
+      <span aria-hidden className="absolute -top-8 left-8 text-9xl leading-none text-gray-200">&ldquo;</span>
+      <blockquote>
+        <Paragraph
+          className="text-2xl lg:text-3xl leading-8 text-gray-800 font-bold"
+          text={text}
+        />
+      </blockquote>
+    </figure>
+  );
+}
+
 export default function Home() {
   const section2Ref = useRef<HTMLDivElement | null>(null);
   const section3Ref = useRef<HTMLDivElement | null>(null);
   const section4Ref = useRef<HTMLDivElement | null>(null);
+  const headerHighlightRef = useRef<HTMLSpanElement | null>(null);
+
+  const testimonials = [
+    {
+      text: "The injections weren't the hardest part. The waiting was.",
+      className: "",
+    },
+    {
+      text: "I spent $12,000 and still felt lost about what was happening to my body.",
+      className: "",
+    },
+    {
+      text:
+        "I wish someone had told me that freezing my eggs wouldn't make me weak — it'd make me free.",
+      className: "sm:col-span-2",
+    },
+  ];
 
   useEffect(() => {
     const ctx = gsap.context(() => {
+      // Header highlight sweep (imitates a real marker stroke) tied to scroll position
+      if (headerHighlightRef.current) {
+        gsap.set(headerHighlightRef.current, { "--hl": "0%" });
+        gsap.to(headerHighlightRef.current, {
+          "--hl": "100%",
+          ease: "none",
+          scrollTrigger: {
+            trigger: headerHighlightRef.current,
+            start: "top bottom",
+            end: "bottom center",
+            scrub: true,
+            invalidateOnRefresh: true,
+          },
+        });
+      }
       if (section2Ref.current) {
         const words = Array.from(section2Ref.current.querySelectorAll<HTMLSpanElement>(".word"));
         if (words.length > 0) {
@@ -92,12 +140,12 @@ export default function Home() {
               defaults: { ease: "none" },
               scrollTrigger: {
                 trigger: section3Ref.current,
-                start: "top bottom",
-                end: "bottom center",
+                start: "top 80%",
+                end: "bottom 90%",
                 scrub: true,
               },
             })
-            .to(figures, { opacity: 1, y: 0, x: 0, scale: 1, filter: "blur(0px)", stagger: 0.22 });
+            .to(figures, { opacity: 1, y: 0, x: 0, scale: 1, filter: "blur(0px)", stagger: 0.35 });
         }
       }
 
@@ -166,41 +214,21 @@ export default function Home() {
         />
       </section>
 
-      {/* From Others Section */}
+      {/* From Others Header Section */}
       <section className="max-w-4xl mx-auto min-h-screen flex items-center justify-center px-6 sm:px-12">
-           <h2 className="text-6xl font-bold mb-6">So we started by listening to thousands of women who&#39;ve walked this path before you.</h2>
+           <h2 className="text-4xl lg:text-7xl font-bold mb-6">
+             <span ref={headerHighlightRef} className="highlight-sweep">
+               So we started by listening to thousands of women who&apos;ve walked this path before you.
+             </span>
+           </h2>
       </section>
 
       {/* From Others Section */}
       <section ref={section3Ref} className="min-h-screen px-6 sm:px-12 py-32 max-w-4xl mx-auto">
         <div className="grid gap-6 sm:gap-8 sm:grid-cols-2">
-          <figure className="relative rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-            <span aria-hidden className="absolute -top-8 left-8 text-9xl leading-none text-gray-200">&ldquo;</span>
-            <blockquote>
-              <Paragraph
-                className="text-4xl leading-16 text-gray-800 italic"
-                text="The injections weren't the hardest part. The waiting was."
-              />
-            </blockquote>
-          </figure>
-          <figure className="relative rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-            <span aria-hidden className="absolute -top-8 left-8 text-9xl leading-none text-gray-200">&ldquo;</span>
-            <blockquote>
-              <Paragraph
-                className="text-4xl leading-16 text-gray-800 italic"
-                text="I spent $12,000 and still felt lost about what was happening to my body."
-              />
-            </blockquote>
-          </figure>
-          <figure className="relative rounded-lg border border-gray-200 bg-white p-6 shadow-sm sm:col-span-2">
-            <span aria-hidden className="absolute -top-8 left-8 text-9xl leading-none text-gray-200">&ldquo;</span>
-            <blockquote>
-              <Paragraph
-                className="text-4xl leading-16 text-gray-800 italic"
-                text="I wish someone had told me that freezing my eggs wouldn't make me weak — it'd make me free."
-              />
-            </blockquote>
-          </figure>
+          {testimonials.map((t, i) => (
+            <TestimonialFigure key={i} text={t.text} className={t.className} />
+          ))}
         </div>
       </section>
 
