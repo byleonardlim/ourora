@@ -41,7 +41,6 @@ export default function Home() {
 
   useEffect(() => {
     const ctx = gsap.context(() => {
-      // Section 2: highlight 5 random words across all paragraphs
       if (section2Ref.current) {
         const words = Array.from(section2Ref.current.querySelectorAll<HTMLSpanElement>(".word"));
         if (words.length > 0) {
@@ -54,9 +53,10 @@ export default function Home() {
             stagger: 0.015,
             scrollTrigger: {
               trigger: section2Ref.current,
-              start: "top 80%",
-              end: "bottom 60%",
+              start: "top bottom",
+              end: "bottom center",
               scrub: true,
+              invalidateOnRefresh: true,
             },
           });
         }
@@ -92,8 +92,8 @@ export default function Home() {
               defaults: { ease: "none" },
               scrollTrigger: {
                 trigger: section3Ref.current,
-                start: "top 80%",
-                end: "bottom 100%",
+                start: "top bottom",
+                end: "bottom center",
                 scrub: true,
               },
             })
@@ -149,19 +149,19 @@ export default function Home() {
     <div className="font-sans min-h-screen bg-white text-gray-900">
       {/* Hero Section */}
       <section className="max-w-4xl mx-auto min-h-screen flex items-center justify-center px-6 sm:px-12">
-          <h1 className="text-9xl sm:text-6xl font-bold tracking-tight leading-tight">
+          <h1 className="text-4xl lg:text-7xl font-bold tracking-tight leading-tight">
             Because Your Future Shouldn&#39;t Feel Like a Deadline
           </h1>
       </section>
       {/* Me Too Section */}
       <section ref={section2Ref} className="min-h-screen px-6 sm:px-12 py-32 max-w-4xl mx-auto">
-        <h2 className="text-5xl font-bold mb-6">You are not alone</h2>
+        <h2 className="text-4xl lg:text-5xl font-bold mb-6">You are not alone</h2>
         <Paragraph
-          className="text-4xl leading-16 text-gray-700 mb-4"
+          className="text-2xl lg:text-4xl leading-8 lg:leading-16 text-gray-700 mb-4"
           text="2 years ago, Nicole, the founder, had to go through the process feeling isolated, pressured by social standards, and overwhelmed by millions of pieces of information that were isolated and unhelpful in sourcing the facts. Even after going through the process, the hormone changes continued to affect her for more than 6 months, leading to suicidal thoughts. "
         />
         <Paragraph
-          className="text-4xl leading-16 text-gray-700 mb-4"
+          className="text-2xl lg:text-4xl leading-8 lg:leading-16 text-gray-700 mb-4"
           text="As she encountered more and more women seeking her guidance on procedures, Nicole realized that many had faced similar challenges. So she decided to create a solution that would eliminate as many obstacles as possible for others in her position. Because hey, this patriarchal system wouldn’t care less about the egg freezing, we can step up to change it and make life easier for all women."
         />
       </section>
@@ -216,9 +216,6 @@ export default function Home() {
           />
         </div>
       </section>
-
-      {/* Spacer to allow scroll experience */}
-      <div className="h-40" />
     </div>
   );
 }
