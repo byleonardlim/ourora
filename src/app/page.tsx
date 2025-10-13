@@ -150,7 +150,7 @@ export default function Home() {
       {/* Hero Section */}
       <section className="max-w-4xl mx-auto min-h-screen flex items-center justify-center px-6 sm:px-12">
           <h1 className="text-9xl sm:text-6xl font-bold tracking-tight leading-tight">
-            Because Your Future Shouldn't Feel Like a Deadline
+            Because Your Future Shouldn&#39;t Feel Like a Deadline
           </h1>
       </section>
       {/* Me Too Section */}
@@ -168,14 +168,14 @@ export default function Home() {
 
       {/* From Others Section */}
       <section className="max-w-4xl mx-auto min-h-screen flex items-center justify-center px-6 sm:px-12">
-           <h2 className="text-6xl font-bold mb-6">So we started by listening to thousands of women who've walked this path before you.</h2>
+           <h2 className="text-6xl font-bold mb-6">So we started by listening to thousands of women who&#39;ve walked this path before you.</h2>
       </section>
 
       {/* From Others Section */}
       <section ref={section3Ref} className="min-h-screen px-6 sm:px-12 py-32 max-w-4xl mx-auto">
         <div className="grid gap-6 sm:gap-8 sm:grid-cols-2">
           <figure className="relative rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-            <span aria-hidden className="absolute -top-8 left-8 text-9xl leading-none text-gray-200">“</span>
+            <span aria-hidden className="absolute -top-8 left-8 text-9xl leading-none text-gray-200">&ldquo;</span>
             <blockquote>
               <Paragraph
                 className="text-4xl leading-16 text-gray-800 italic"
@@ -184,7 +184,7 @@ export default function Home() {
             </blockquote>
           </figure>
           <figure className="relative rounded-lg border border-gray-200 bg-white p-6 shadow-sm">
-            <span aria-hidden className="absolute -top-8 left-8 text-9xl leading-none text-gray-200">“</span>
+            <span aria-hidden className="absolute -top-8 left-8 text-9xl leading-none text-gray-200">&ldquo;</span>
             <blockquote>
               <Paragraph
                 className="text-4xl leading-16 text-gray-800 italic"
@@ -193,7 +193,7 @@ export default function Home() {
             </blockquote>
           </figure>
           <figure className="relative rounded-lg border border-gray-200 bg-white p-6 shadow-sm sm:col-span-2">
-            <span aria-hidden className="absolute -top-8 left-8 text-9xl leading-none text-gray-200">“</span>
+            <span aria-hidden className="absolute -top-8 left-8 text-9xl leading-none text-gray-200">&ldquo;</span>
             <blockquote>
               <Paragraph
                 className="text-4xl leading-16 text-gray-800 italic"
