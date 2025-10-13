@@ -53,7 +53,7 @@ export default function Home() {
             stagger: 0.015,
             scrollTrigger: {
               trigger: section2Ref.current,
-              start: "top bottom",
+              start: "top 80%",
               end: "bottom center",
               scrub: true,
               invalidateOnRefresh: true,
@@ -146,7 +146,7 @@ export default function Home() {
   }, []);
 
   return (
-    <div className="font-sans min-h-screen bg-white text-gray-900">
+    <div className="min-h-screen bg-white text-gray-900">
       {/* Hero Section */}
       <section className="max-w-4xl mx-auto min-h-screen flex items-center justify-center px-6 sm:px-12">
           <h1 className="text-4xl lg:text-7xl font-bold tracking-tight leading-tight">
