@@ -57,6 +57,7 @@ export default function Home() {
   const section4Ref = useRef<HTMLDivElement | null>(null);
   const headerHighlightRef = useRef<HTMLSpanElement | null>(null);
   const headerHighlightRef2 = useRef<HTMLSpanElement | null>(null);
+  const headerHighlightRef3 = useRef<HTMLSpanElement | null>(null);
 
   const testimonials = [
     {
@@ -71,6 +72,49 @@ export default function Home() {
       text:
         "I wish someone had told me that freezing my eggs wouldn't make me weak — it'd make me free.",
       className: "sm:col-span-2",
+    },
+  ];
+
+  const features = [
+    {
+      title: "1. Your Body's Truth",
+      paragraphs: [
+        "Aura reads your biomarkers — AMH, cycle length, sleep, stress — and translates what your body's trying to tell you.",
+        "No charts screaming at you. Just signals turned into understanding.",
+      ],
+    },
+    {
+      title: "2. Your Timeline, Not the society’s",
+      paragraphs: [
+        "Using data from thousands of egg-freezing journeys, Aura helps you see your probabilities —",
+        "how many eggs, the likelihoods, the what-ifs.",
+        "It won't tell you what to do. It shows you what's real, so you can choose with a clear head.",
+      ],
+    },
+    {
+      title: "3. Your Financial Path",
+      paragraphs: [
+        "Money's the quiet weight behind most decisions, isn't it?",
+        "Aura's cost simulator shows you different paths —",
+        "one cycle, two, insurance options, financing help.",
+        "Because you shouldn't have to choose between your savings and your future self.",
+      ],
+    },
+    {
+      title: "4. Your Medical Compass",
+      paragraphs: [
+        "Everything you read in Aura? Vetted by reproductive specialists.",
+        "Every percentage, every range, every recommendation — grounded in research, not rumors.",
+        "Because trust lives in the details.",
+      ],
+    },
+    {
+      title: "5. Your Emotional Anchor",
+      paragraphs: [
+        "Hormones can knock you off balance.",
+        "Aura Bloom — your AI companion — helps you find your footing again.",
+        "Daily reflections, affirmations, gentle reminders to breathe through the waiting. A calm, private space when your emotions feel bigger than your logic.",
+      ],
     },
   ];
 
@@ -202,16 +246,17 @@ export default function Home() {
       {/* Floating CTA Bar */}
       <div
         className={[
-          "fixed inset-x-0 bottom-4 z-50 transition-all duration-300 ease-out",
+          "fixed inset-x-0 z-50 pb-[env(safe-area-inset-bottom)] transition-all duration-300 ease-out",
           showCTA ? "opacity-100 translate-y-0" : "opacity-0 translate-y-4 pointer-events-none",
         ].join(" ")}
+        style={{ bottom: "calc(1rem + env(safe-area-inset-bottom))" }}
         aria-hidden={!showCTA}
       >
         <div className="mx-auto w-full max-w-4xl px-4">
           <div className="rounded-xl border border-gray-200 bg-white/90 backdrop-blur shadow-lg">
             <div className="flex items-center justify-between gap-4 p-3">
               <p className="text-sm sm:text-base text-gray-700">
-                Ready to begin? Take the first step.
+                Ready to begin?
               </p>
               <a
                 href="#"
@@ -226,13 +271,13 @@ export default function Home() {
         </div>
       </div>
       {/* Hero Section */}
-      <section className="max-w-4xl mx-auto min-h-screen flex items-center justify-center px-6 sm:px-12">
+      <section className="max-w-4xl mx-auto min-h-screen flex items-center justify-center px-6">
           <h1 className="text-4xl lg:text-7xl font-bold tracking-tight leading-tight">
             Because Your Future Shouldn&#39;t Feel Like a Deadline
           </h1>
       </section>
       {/* Me Too Section */}
-      <section ref={section2Ref} className="min-h-screen px-6 sm:px-12 py-32 max-w-4xl mx-auto">
+      <section ref={section2Ref} className="min-h-screen px-6 py-32 max-w-4xl mx-auto">
         <h2 className="text-4xl lg:text-5xl font-bold mb-6">You are not alone</h2>
         <Paragraph
           className="text-2xl lg:text-5xl leading-8 lg:leading-16 text-gray-700 mb-4"
@@ -245,7 +290,7 @@ export default function Home() {
       </section>
 
       {/* From Others Header Section */}
-      <section className="max-w-4xl mx-auto min-h-screen flex items-center justify-center px-12 lg:px-6">
+      <section className="max-w-4xl mx-auto min-h-screen flex items-center justify-center px-6 lg:px-6">
            <h2 className="text-4xl lg:text-7xl font-bold mb-6">
              <span ref={headerHighlightRef} className="highlight-sweep">
                So we started by listening to thousands of women who&apos;ve walked this path before you.
@@ -254,7 +299,7 @@ export default function Home() {
       </section>
 
       {/* From Others Section */}
-      <section ref={section3Ref} className=" max-w-4xl mx-auto min-h-screen flex items-center justify-center px-6 px-12 lg:py-32">
+      <section ref={section3Ref} className=" max-w-4xl mx-auto min-h-screen flex items-center justify-center px-6 lg:py-32">
         <div className="grid gap-6 lg:gap-4 sm:grid-cols-2">
           {testimonials.map((t, i) => (
             <TestimonialFigure key={i} text={t.text} className={t.className} />
@@ -270,12 +315,32 @@ export default function Home() {
       </section>
 
       {/* From Others Header Section */}
-      <section className="max-w-4xl mx-auto min-h-screen flex items-center justify-center px-6 sm:px-12">
+      <section className="max-w-4xl mx-auto min-h-screen flex items-center justify-center px-6">
            <h2 className="text-4xl lg:text-7xl font-bold mb-6">
              <span ref={headerHighlightRef2} className="highlight-sweep">
                Every line of Aura&#39;s design — every screen, every word — carries those stories.
              </span>
            </h2>
+      </section>
+
+      <section className="max-w-4xl mx-auto min-h-screen flex flex-col items-center justify-center px-6 pb-64">
+        <h2 className="text-4xl lg:text-7xl font-bold mb-6">
+          <span ref={headerHighlightRef3} className="highlight-sweep">
+            Aura help you see about
+          </span>
+        </h2>
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-0 rounded-sm border border-gray-200 overflow-hidden">
+          {features.map((f, idx) => (
+            <div key={idx} className="bg-white border border-gray-200 -m-px p-6 lg:p-8">
+              <h3 className="text-xl lg:text-3xl font-bold mb-3">{f.title}</h3>
+              {f.paragraphs.map((p, i) => (
+                <p key={i} className={i < f.paragraphs.length - 1 ? "text-gray-700 mb-2" : "text-gray-700"}>
+                  {p}
+                </p>
+              ))}
+            </div>
+          ))}
+        </div>
       </section>
     </div>
   );
