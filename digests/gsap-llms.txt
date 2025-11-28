@@ -1,0 +1,1422 @@
+### Install GSAP via npm
+
+Source: https://gsap.com/docs/v3/GSAP
+
+Install GSAP package using npm package manager. This makes GSAP available as a dependency in your project for use in JavaScript/TypeScript applications.
+
+```bash
+npm install gsap
+```
+
+--------------------------------
+
+### Import GSAP and Plugins from a Custom Module
+
+Source: https://gsap.com/docs/v3/Installation
+
+Import GSAP and its registered plugins from a custom module file. This approach simplifies imports in other parts of your application.
+
+```javascript
+import { gsap, DrawSVGPlugin } from "../gsap.js"
+```
+
+--------------------------------
+
+### Create a GSAP Module File with Plugins
+
+Source: https://gsap.com/docs/v3/Installation
+
+Create a central module file to export GSAP and desired plugins. This helps in managing imports and avoiding duplicate registrations in module environments.
+
+```javascript
+export * from "gsap";
+export * from "gsap/DrawSVGPlugin";
+
+import { gsap } from "gsap";
+import { DrawSVGPlugin } from "gsap/DrawSVGPlugin";
+
+gsap.registerPlugin(DrawSVGPlugin);
+```
+
+--------------------------------
+
+### Register GSAP Plugins
+
+Source: https://gsap.com/docs/v3/Installation
+
+Register GSAP plugins to enable their functionality. This is crucial for build tools to prevent plugins from being removed during tree-shaking. Multiple plugins can be registered at once.
+
+```javascript
+gsap.registerPlugin(MotionPathPlugin, ScrollToPlugin, TextPlugin);
+```
+
+--------------------------------
+
+### GSAP Timeline Control Methods (JavaScript)
+
+Source: https://gsap.com/docs/v3/GSAP
+
+Demonstrates common control methods for GSAP Timeline instances, such as pause, play, seek, and timeScale. These methods allow for precise manipulation of animation playback.
+
+```javascript
+var tween = gsap.to(...);
+var tl = gsap.timeline(); //"tl" short for timeline
+tl.to(...).to(...); //add animations.
+
+//now we can control them...
+tween.pause();
+tween.timeScale(2); //double speed
+tl.seek(3); //jump to 3 seconds in
+tl.progress(0.5); //halfway through
+...
+```
+
+--------------------------------
+
+### Configure TypeScript Definitions Path
+
+Source: https://gsap.com/docs/v3/Installation
+
+Configure your TypeScript compiler to locate the GSAP type definition files. This helps resolve TypeScript errors related to GSAP usage.
+
+```json
+{
+  "compilerOptions": {
+    ...
+  },
+  "files": [
+    "node_modules/gsap/types/index.d.ts"
+  ]
+}
+```
+
+--------------------------------
+
+### GSAP Timeline Labels (JavaScript)
+
+Source: https://gsap.com/docs/v3/GSAP
+
+Shows how to use labels to mark specific points in a GSAP timeline. Labels can be used to place animations at precise moments or to navigate the timeline during playback.
+
+```javascript
+//add a label at exactly 3 seconds
+tl.addLabel("step2", 3)
+
+//then later, we can seek() to that spot:
+tl.seek("step2");
+
+```
+
+--------------------------------
+
+### Import GSAP Core
+
+Source: https://gsap.com/docs/v3/Installation
+
+Import the core GSAP library into your JavaScript or TypeScript project. This import statement is typically used in conjunction with build tools like Webpack or Vite.
+
+```javascript
+import { gsap } from "gsap";
+```
+
+--------------------------------
+
+### GSAP v3 Play Animation Examples
+
+Source: https://gsap.com/docs/v3/GSAP/Tween/play%28%29
+
+Demonstrates how to use the GSAP v3 'play' method to control animation playback. It covers starting from the current position, from a specific time, and with or without suppressing events.
+
+```javascript
+//begins playing from wherever the playhead currently is:
+myAnimation.play();
+
+//begins playing from exactly 2-seconds into the animation:
+myAnimation.play(2);
+
+// jumps to exactly 2-seconds into the animation and starts playing but doesn't suppress events (meaning it will trigger any callbacks between the old and new playhead positions):
+myAnimation.play(2, false);
+```
+
+--------------------------------
+
+### Import GSAP using UMD format
+
+Source: https://gsap.com/docs/v3/Installation
+
+Import the GSAP core library using the Universal Module Definition (UMD) format. This is useful when working with build tools that may not fully support ES modules or for debugging.
+
+```javascript
+import { gsap } from "gsap/dist/gsap";
+```
+
+--------------------------------
+
+### Initialize Empty Timeline and Add Tweens
+
+Source: https://gsap.com/docs/v3/GSAP
+
+Create an empty Timeline using gsap.timeline() and then add tweens using the .to() method on the timeline instance. This approach allows you to build animations programmatically and chain multiple tweens together.
+
+```javascript
+var tl = gsap.timeline();
+tl.to(".box", { duration: 2, x: 100, opacity: 0.5 });
+```
+
+--------------------------------
+
+### Create a Timeline with Sequenced Tweens
+
+Source: https://gsap.com/docs/v3/GSAP
+
+Create a Timeline container and add multiple tweens that animate sequentially. Each tween targets different elements (#green, #blue, #orange) and executes one after another based on their durations. Timelines are essential for complex animation choreography.
+
+```javascript
+let tl = gsap.timeline();
+tl.to("#green", {duration: 1, x: 786})
+  .to("#blue", {duration: 2, x: 786})
+  .to("#orange", {duration: 1, x: 786})
+```
+
+--------------------------------
+
+### Example Usage of getScrollLookup with GSAP (JavaScript)
+
+Source: https://gsap.com/docs/v3/HelperFunctions/helpers/getScrollLookup
+
+This example demonstrates how to use the `getScrollLookup` function to create a position retrieval function and then utilize it with `gsap.to` to animate the window's scroll position. It shows how to configure `containerAnimation` and `start` options.
+
+```javascript
+let getPosition = getScrollLookup(".section", {
+  containerAnimation: horizontalTween,
+  start: "center center",
+});
+
+// then later, use the function as many times as you want to look up any of the scroll position of any ".section" element
+gsap.to(window, {
+  scrollTo: getPosition("#your-element"),
+  duration: 1,
+});
+```
+
+--------------------------------
+
+### GSAP v3 Timeline Comparison (Delays vs. Timeline)
+
+Source: https://gsap.com/docs/v3/GSAP/Timeline
+
+Contrasts building animation sequences using manual delays versus GSAP Timelines. The example shows how Timelines simplify sequence management and updates.
+
+```javascript
+// WITHOUT Timelines (only using delays):
+gsap.to("#id", { x: 100, duration: 1 });
+gsap.to("#id", { y: 50, duration: 2, delay: 1 }); //wait 1 second
+gsap.to("#id", { opacity: 0, duration: 1, delay: 3 }); //wait 3 seconds
+```
+
+--------------------------------
+
+### ScrollTrigger scrollerProxy Setup with Third-Party Library
+
+Source: https://gsap.com/docs/v3/Plugins/ScrollTrigger/static
+
+Demonstrates how to configure ScrollTrigger.scrollerProxy to work with a third-party scrollbar library (like Scrollbar.js). The example shows how to create getter/setter functions for scrollTop, implement getBoundingClientRect(), and sync updates between the custom scroller and ScrollTrigger.
+
+```javascript
+// 3rd party library setup:
+const bodyScrollBar = Scrollbar.init(document.body, {
+  damping: 0.1,
+  delegateTo: document,
+});
+
+// Tell ScrollTrigger to use these proxy getter/setter methods for the "body" element:
+ScrollTrigger.scrollerProxy(document.body, {
+  scrollTop(value) {
+    if (arguments.length) {
+      bodyScrollBar.scrollTop = value; // setter
+    }
+    return bodyScrollBar.scrollTop; // getter
+  },
+  getBoundingClientRect() {
+    return {
+      top: 0,
+      left: 0,
+      width: window.innerWidth,
+      height: window.innerHeight,
+    };
+  },
+});
+
+// when the smooth scroller updates, tell ScrollTrigger to update() too:
+bodyScrollBar.addListener(ScrollTrigger.update);
+```
+
+--------------------------------
+
+### Create and Use a Custom Ease with cubic-bezier Values
+
+Source: https://gsap.com/docs/v3/Eases/CustomEase
+
+This example demonstrates creating a custom ease using a standard cubic-bezier string format, similar to those from cubic-bezier.com. The 'create' method accepts the ease name and the cubic-bezier string.
+
+```javascript
+CustomEase.create("easeName", ".17,.67,.83,.67");
+```
+
+--------------------------------
+
+### Get or Set Animation startTime (JavaScript)
+
+Source: https://gsap.com/docs/v3/GSAP/Timeline/startTime%28%29
+
+This snippet demonstrates how to use the startTime method in GSAP to either retrieve the current start time of a timeline or set a new start time. The method returns the current time if no argument is provided (getter) and returns the timeline instance for chaining if a time value is set (setter).
+
+```javascript
+/* Gets current start time */
+var start = tl.startTime();
+
+/* Sets start time to 2 */
+tl.startTime(2);
+```
+
+--------------------------------
+
+### Basic EaselJS Setup and GSAP Tween
+
+Source: https://gsap.com/docs/v3/Plugins/EaselPlugin
+
+Demonstrates setting up an EaselJS stage and a circle shape, then tweening its tint and scale using GSAP's EaselPlugin. It includes caching the EaselJS object and updating the stage on each tick.
+
+```javascript
+//setup stage and create a Shape into which we'll draw a circle later...
+var canvas = document.getElementById("myCanvas"),
+  stage = new createjs.Stage(canvas),
+  circle = new createjs.Shape(),
+  g = circle.graphics;
+
+//draw a red circle in the Shape
+g.beginFill(createjs.Graphics.getRGB(255, 0, 0));
+g.drawCircle(0, 0, 100);
+g.endFill();
+
+//in order for the ColorFilter to work, we must cache() the circle
+circle.cache(-100, -100, 200, 200);
+
+//place the circle at 200,200
+circle.x = 200;
+circle.y = 200;
+
+//add the circle to the stage
+stage.addChild(circle);
+
+//setup a "tick" event listener so that the EaselJS stage gets updated on every frame/tick
+gsap.ticker.add(() => stage.update());
+stage.update();
+
+//tween the tint of the circle to green and scale it to half-size
+gsap.to(circle, {
+  duration: 2,
+  scaleX: 0.5,
+  scaleY: 0.5,
+  easel: { tint: 0x00ff00 },
+});
+```
+
+--------------------------------
+
+### Chain Multiple Tweens with Method Chaining
+
+Source: https://gsap.com/docs/v3/GSAP
+
+Use method chaining to add multiple sequential tweens to a Timeline in a single statement. Each tween executes after the previous one completes, creating a choreographed animation sequence across three elements.
+
+```javascript
+tl.to(".box1", { duration: 2, x: 100 })
+  .to(".box2", { duration: 1, y: 200 })
+  .to(".box3", { duration: 3, rotation: 360 });
+```
+
+--------------------------------
+
+### Example Usage of GSAP Number Formatter (JavaScript)
+
+Source: https://gsap.com/docs/v3/HelperFunctions/helpers/formatNumber
+
+Illustrates how to create and use a number formatter generated by `getFormatter`. This example sets up a formatter that increments by 0.01 and always pads to two decimal places, then demonstrates its usage with a sample number, showing the formatted output with commas and correct decimal padding.
+
+```javascript
+let formatter = getFormatter(0.01, true); // increment by 0.01, always pad so that there are 2 decimal places
+
+console.log(formatter(5000.1)); // 5,000.10
+```
+
+--------------------------------
+
+### InertiaPlugin End Function Example
+
+Source: https://gsap.com/docs/v3/Plugins/InertiaPlugin
+
+Demonstrates how to use a function for the 'end' property in InertiaPlugin to implement custom snapping logic. This example shows how to snap rotation to 10-degree increments.
+
+```javascript
+gsap.to("#myElement", {
+  rotation: 3600,
+  inertia: {
+    velocity: -500,
+    end: function(naturalValue) {
+      return Math.round(naturalValue / 10) * 10;
+    }
+  }
+});
+```
+
+--------------------------------
+
+### GSAP SlowMo Ease Examples
+
+Source: https://gsap.com/docs/v3/Eases/SlowMo
+
+Demonstrates various ways to use the SlowMo ease in GSAP. It covers default usage, custom parameterization (linearRatio and power), and enabling yoyoMode for synchronized tweens. Assumes 'myText' is a valid GSAP target.
+
+```javascript
+//use the default SlowMo ease (linearRatio of 0.7 and power of 0.7)
+gsap.to(myText, {duration: 5, x: 600, ease: "slow"});
+```
+
+```javascript
+//this gives the exact same effect as the line above, but uses a different syntax
+gsap.to(myText, {duration: 5, x: 600, ease: "slow(0.5, 0.8)"});
+```
+
+```javascript
+//now let's create an opacity tween that syncs with the above positional tween, fading it in at the beginning and out at the end
+gsap.from(myText, {duration: 5, opacity: 0, ease: "slow(0.5, 0.8, true)"});
+```
+
+--------------------------------
+
+### Relative to Previous Animation Start (JavaScript)
+
+Source: https://gsap.com/docs/v3/GSAP/Timeline/from%28%29
+
+Inserts an animation at the starting point of the previously added animation. The '<' character acts as a pointer to the start of the preceding tween.
+
+```javascript
+tl.from(".class", { x: 100 }, "<");
+```
+
+--------------------------------
+
+### Import GSAP in JavaScript
+
+Source: https://gsap.com/docs/v3/GSAP
+
+Import the gsap object from the GSAP package to access animation methods and properties. This is the standard way to include GSAP in ES6 module-based projects.
+
+```javascript
+import { gsap } from "gsap"
+```
+
+--------------------------------
+
+### Advanced Text Replacement Configuration
+
+Source: https://gsap.com/docs/v3/Plugins/TextPlugin
+
+Shows an example of using the object syntax for TextPlugin's 'text' property, including 'value', 'newClass', and 'delimiter'. This enables more complex text animations.
+
+```javascript
+//GOOD:
+g gsap.to(yourElement, {
+  duration: 1,
+  text: {
+    value: "Your new text",
+    newClass: "class2",
+    delimiter: " ",
+  },
+});
+```
+
+--------------------------------
+
+### Minimal GSAP RoughEase Usage
+
+Source: https://gsap.com/docs/v3/Eases/RoughEase
+
+Demonstrates the basic implementation of RoughEase by applying a 'rough' ease to a tween. This example shows how to apply the default RoughEase configuration to an animation.
+
+```javascript
+//use the default values
+gsap.from(element, {duration: 1, opacity: 0, ease: "rough"});
+```
+
+--------------------------------
+
+### ScrollTrigger Snap Functionality Examples
+
+Source: https://gsap.com/docs/v3/Plugins/ScrollTrigger
+
+Provides examples of configuring the `snap` property for ScrollTrigger. This includes snapping to increments, specific values via an array, custom logic with a function, and using timeline labels.
+
+```javascript
+// Snap to 10% increments
+ScrollTrigger.create({
+  trigger: "#section",
+  snap: 0.1
+});
+
+// Snap to specific progress values
+ScrollTrigger.create({
+  trigger: "#section",
+  snap: [0, 0.25, 0.5, 0.75, 1]
+});
+
+// Custom snap logic (snap to nearest 20%)
+ScrollTrigger.create({
+  trigger: "#section",
+  snap: (value) => Math.round(value / 0.2) * 0.2
+});
+
+// Snap to timeline labels
+ScrollTrigger.create({
+  trigger: "#section",
+  animation: myTimeline,
+  snap: "labels"
+});
+
+// Snap to labels directionally
+ScrollTrigger.create({
+  trigger: "#section",
+  animation: myTimeline,
+  snap: "labelsDirectional"
+});
+
+// Snap with custom object for more control
+ScrollTrigger.create({
+  trigger: "#section",
+  snap: {
+    snapTo: 0.5, // or "labels", or a function
+    duration: 0.3, 
+    delay: 0.1,
+    ease: "power1.inOut",
+    directional: true,
+    inertia: true
+  }
+});
+```
+
+--------------------------------
+
+### Create MotionPathHelper for New Path
+
+Source: https://gsap.com/docs/v3/Plugins/MotionPathHelper
+
+This example demonstrates creating a new, basic motion path using MotionPathHelper by providing an element selector. The helper will generate a path that can then be edited interactively in the browser. The input is an element or selector text.
+
+```javascript
+// just pass the element or selector text:
+MotionPathHelper.create("#id");
+```
+
+--------------------------------
+
+### Minimal GSAP ScrollTrigger Animation
+
+Source: https://gsap.com/docs/v3/Plugins/ScrollTrigger
+
+A basic example of using ScrollTrigger to animate an element. The animation starts when the target element ('.box') enters the viewport. It requires GSAP and the ScrollTrigger plugin to be registered.
+
+```javascript
+gsap.to('.box', {
+	scrollTrigger: '.box', // start animation when ".box" enters the viewport
+	x: 500
+});
+```
+
+--------------------------------
+
+### GSAP v3 Custom Ease Configuration
+
+Source: https://gsap.com/docs/v3/Eases
+
+Shows how to create and configure custom eases in GSAP v3. This includes examples for `RoughEase`, `SlowMo`, `ExpoScaleEase`, `CustomEase`, `CustomBounce`, and `CustomWiggle`. These are often packaged separately to minimize file size.
+
+```javascript
+// Example for RoughEase
+const myRoughEase = RoughEase.create({
+  strength: 1,
+  points: 20,
+  taper: "none",
+  randomize: true,
+  clamp: true
+});
+
+// Example for ExpoScaleEase
+const myExpoScaleEase = ExpoScaleEase.create(0.5, 7, "none");
+
+// Example for CustomEase (simple linear)
+const myCustomEase = CustomEase.create("custom", "0,0,1,1");
+
+// Example for CustomWiggle
+const myWiggle = CustomWiggle.create({
+  wiggles: 10,
+  type: "easeInOut"
+});
+
+// Example for CustomBounce
+const myBounce = CustomBounce.create({
+  strength: 0.7,
+  endAtStart: false,
+  squash: 1,
+  squashID: "myBounce-squash"
+});
+
+// Using a custom ease in a tween
+gsap.to(target, {
+  duration: 1,
+  ease: myBounce,
+  y: -200
+});
+```
+
+--------------------------------
+
+### GSAP revert() vs. progress(0) Example (JavaScript)
+
+Source: https://gsap.com/docs/v3/GSAP/Tween/revert%28%29
+
+Illustrates the difference between using progress(0) and revert() in GSAP. While progress(0) resets to the animation's start values, it leaves inline styles, whereas revert() removes them.
+
+```javascript
+// Initial state: no inline styles
+// <div class="box"></div>
+
+// Animate opacity
+let tween = gsap.to(".box", { opacity: 0 });
+
+// Using progress(0) - still has inline style
+tween.progress(0).pause();
+// <div class="box" style="opacity: 1"></div>
+
+// Using revert() - removes inline styles
+animation.revert();
+// <div class="box"></div> (inline styles removed)
+```
+
+--------------------------------
+
+### GSAP v3 Timeline Animation Positioning (Most Recent Start)
+
+Source: https://gsap.com/docs/v3/GSAP/Timeline
+
+Demonstrates positioning animations relative to the start of the most recently added animation using '<'. This allows for precise control over how animations begin in relation to each other.
+
+```javascript
+tl.to(".class", { x: 100 }, "<");
+tl.to(".class", { x: 100 }, "<1");
+tl.to(".class", { y: 100 }, "<-2");
+```
+
+--------------------------------
+
+### Include GSDevTools via CDN
+
+Source: https://gsap.com/docs/v3/Plugins/GSDevTools
+
+Includes the GSDevTools library using a CDN link. This method is suitable for quick setups or when not using a module bundler. Ensure the correct version is specified.
+
+```html
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.13.0/dist/GSDevTools.min.js"></script>
+```
+
+--------------------------------
+
+### Create a Basic Tween Animation
+
+Source: https://gsap.com/docs/v3/GSAP
+
+Create a simple animation using gsap.to() that rotates and moves elements with the class 'box' over 1 second. The 'x' property is a shortcut for translateX() transform. Tweens are the core animation units in GSAP that interpolate property values over time.
+
+```javascript
+gsap.to(".box", { rotation: 27, x: 100, duration: 1 });
+```
+
+--------------------------------
+
+### GSAP 3D Transform from CSS Example
+
+Source: https://gsap.com/docs/v3/GSAP/CorePlugins/CSS
+
+Translates a CSS `transform` property with 3D components (translate3d, rotateY, scale) into an animatable GSAP tween. This code assumes the GSAP library is loaded and targets a specific element.
+
+```javascript
+//corresponding GSAP transform (animated over 2 seconds):
+gsap.to(element, {
+    duration: 2,
+    scale: 1.5,
+    rotationY: 45,
+    x: 10,
+    y: 0,
+    z: -200
+});
+```
+
+--------------------------------
+
+### Get and Set startTime in GSAP Animation
+
+Source: https://gsap.com/docs/v3/GSAP/Tween/startTime%28%29
+
+Demonstrates how to use the startTime() method as both a getter to retrieve the current start time of an animation and as a setter to define when an animation begins on its parent timeline. Returns the current value when called without parameters (getter), or sets the value and returns the instance for chaining when called with a parameter (setter).
+
+```JavaScript
+//gets current start time
+var start = myAnimation.startTime();
+
+//sets the start time
+myAnimation.startTime(2);
+```
+
+--------------------------------
+
+### Register EaselPlugin with GSAP
+
+Source: https://gsap.com/docs/v3/Plugins/EaselPlugin
+
+This code snippet shows how to register the EaselPlugin with GSAP, which is necessary before using any of its features. It's a one-time setup.
+
+```javascript
+gsap.registerPlugin(EaselPlugin)
+```
+
+--------------------------------
+
+### GSAP v3 Chained Timeline Methods Example
+
+Source: https://gsap.com/docs/v3/GSAP/Timeline/from%28%29
+
+Illustrates chaining multiple GSAP timeline methods including `from()`, `to()`, `set()`, and `call()` to create a complex animation sequence. This showcases the power of GSAP for building intricate motion graphics.
+
+```javascript
+//create a timeline that calls myFunction() when it completes
+var tl = gsap.timeline({ onComplete: myFunction });
+
+//now we'll use chaining, but break each step onto a different line for readability...
+
+//tween element's x from -100
+tl.from(element, { duration: 1, x: -100 })
+
+  //then tween element's y to 50
+  .to(element, { duration: 1, y: 50 })
+
+  //then set element's opacity to 0.5 immediately
+  .set(element, { opacity: 0 })
+
+  //then call otherFunction()
+  .call(otherFunction)
+
+  //finally tween the rotation of all elements with the class "myClass" to 45 and stagger the start times by 0.25 seconds
+  .to(".myClass", { duration: 1.5, rotation: 45, stagger: 0.25 });
+```
+
+--------------------------------
+
+### Relative Animation Insertion at Previous Start (JavaScript)
+
+Source: https://gsap.com/docs/v3/GSAP/Timeline/to%28%29
+
+Places an animation at the start of the previously inserted animation. The '<' character acts as a pointer to the beginning of the preceding tween, facilitating easy sequencing.
+
+```javascript
+tl.to(".class", { x: 100 }, "<");
+```
+
+--------------------------------
+
+### GSAP v3 Timeline from() Method Example
+
+Source: https://gsap.com/docs/v3/GSAP/Timeline/from%28%29
+
+Demonstrates how to use the `from()` method to add a tween to a GSAP timeline. This method is a shorthand for `timeline.add(gsap.from(...))` and allows for concise animation sequencing.
+
+```javascript
+var tl = gsap.timeline();
+
+var tween = gsap.from(element, { duration: 1, x: 100, opacity: 0.5 });
+tl.add(tween);
+
+//this line produces the same result as the previous two lines (just shorter)
+tl.from(element, { duration: 1, x: 100, opacity: 0.5 });
+```
+
+--------------------------------
+
+### Create Observer for Mouse Wheel and Touch Events
+
+Source: https://gsap.com/docs/v3/Plugins/Observer
+
+This example demonstrates the minimal usage of the Observer plugin to create an observer instance. It targets the window to listen for 'wheel' and 'touch' events, triggering 'previous()' on upward movement and 'next()' on downward movement.
+
+```javascript
+Observer.create({
+  target: window, // can be any element (selector text is fine)
+  type: "wheel,touch", // comma-delimited list of what to listen for
+  onUp: () => previous(),
+  onDown: () => next()
+});
+```
+
+--------------------------------
+
+### Image Sequence Canvas Implementation - JavaScript
+
+Source: https://gsap.com/docs/v3/HelperFunctions/helpers/imageSequenceScrub
+
+Usage example demonstrating how to initialize the imageSequence helper function with an array of image URLs, a canvas element selector, and ScrollTrigger configuration. The scrub parameter enables scroll-synchronized animation, while start and end define the scroll range triggering the animation.
+
+```javascript
+imageSequence({
+  urls,
+  canvas: "#image-sequence",
+  scrollTrigger: {
+    start: 0,
+    end: "max",
+    scrub: true
+  }
+});
+```
+
+--------------------------------
+
+### Create Minimal GSDevTools Instance
+
+Source: https://gsap.com/docs/v3/Plugins/GSDevTools
+
+Initializes GSDevTools with default settings. This provides a basic visual UI for controlling all global GSAP animations. No specific inputs are required.
+
+```javascript
+GSDevTools.create();
+```
+
+--------------------------------
+
+### GSDevTools.create() Method Signature
+
+Source: https://gsap.com/docs/v3/Plugins/GSDevTools
+
+Demonstrates the static `create` method of the GSDevTools plugin. This method is used to initialize an instance of GSDevTools, optionally accepting a configuration object to customize its behavior.
+
+```javascript
+GSDevTools.create(config: Object): GSDevTools;
+```
+
+--------------------------------
+
+### Relative Start Positioning '<' in GSAP Timeline (JavaScript)
+
+Source: https://gsap.com/docs/v3/GSAP/Timeline/fromTo%28%29
+
+Positions an animation at the start of the previously inserted animation. The '<' character acts as a pointer to the beginning of the preceding tween.
+
+```javascript
+tl.fromTo(".class", { x: 100 }, { x: 200 }, "<");
+```
+
+--------------------------------
+
+### Standalone GSAP ScrollTrigger Custom Callback Example
+
+Source: https://gsap.com/docs/v3/Plugins/ScrollTrigger
+
+This example demonstrates using ScrollTrigger independently of animations, focusing on its callbacks. It triggers `onToggle` and `onUpdate` based on scroll events and element interactions. Requires GSAP and ScrollTrigger.
+
+```javascript
+ScrollTrigger.create({
+	trigger: '#id',
+	start: 'top top',
+	endTrigger: '#otherID',
+	end: 'bottom 50%+=100px',
+	onToggle: (self) => console.log('toggled, isActive:', self.isActive),
+	onUpdate: (self) => {
+		console.log(
+			'progress:',
+			self.progress.toFixed(3),
+			'direction:',
+			self.direction,
+			'velocity',
+			self.getVelocity()
+		);
+	}
+});
+```
+
+--------------------------------
+
+### Minimal GSAP ExpoScale Ease Usage
+
+Source: https://gsap.com/docs/v3/Eases/SlowMo
+
+A minimal example demonstrating the usage of the expoScale ease, likely from EasePack, to animate the scale property of an element. It requires the element with the ID 'image' to exist.
+
+```javascript
+// we're starting at a scale of 1 and animating to 2, so pass those into config()...
+gsap.to("#image", { duration: 1, scale: 2, ease: "expoScale(1, 2)" });
+```
+
+--------------------------------
+
+### InertiaPlugin Linked Properties Example
+
+Source: https://gsap.com/docs/v3/Plugins/InertiaPlugin
+
+Illustrates the use of 'linkedProps' with a function-based 'end' property in InertiaPlugin. This allows for logic that depends on multiple tweened properties, such as snapping x and y coordinates together.
+
+```javascript
+gsap.to("#myElement", {
+  x: 100,
+  y: 200,
+  inertia: {
+    velocity: -500,
+    linkedProps: "x,y",
+    end: function(values) {
+      // values will be like {x: 100, y: 200}
+      // Custom logic to determine new x and y values
+      return {
+        x: values.x + 50,
+        y: values.y + 100
+      };
+    }
+  }
+});
+```
+
+--------------------------------
+
+### Utilize findShapeIndex() for Shape Animation
+
+Source: https://gsap.com/docs/v3/Plugins/MorphSVGPlugin
+
+Use the findShapeIndex() utility to visually determine and set the start point for morphing animations. This standalone function offers an interactive interface to preview and adjust the animation's starting position.
+
+```javascript
+findShapeIndex("#square", "#star");
+```
+
+```javascript
+findShapeIndex(
+  "#square",
+  "M10 315 L 110 215 A 30 50 0 0 1 162.55 162.45 L 172.55 152.45 A 30 50 -45 0 1 215.1 109.9 L 315 10"
+);
+```
+
+--------------------------------
+
+### GSAP v3 Timeline Control and Callbacks
+
+Source: https://gsap.com/docs/v3/GSAP/Timeline
+
+Demonstrates creating a GSAP v3 timeline with repeat, repeatDelay, and onComplete callback. It also shows how to add tweens with sequencing, reverse the timeline, add labels, play from a specific label, and nest other timelines.
+
+```javascript
+var tl = gsap.timeline({ repeat: 3, repeatDelay: 1, onComplete: myFunction });
+
+tl.to(".class", { duration: 1, x: 200, y: 100 });
+tl.to("#id", { duration: 0.8, opacity: 0 }, "+=0.5");
+tl.reverse();
+
+tl.addLabel("spin", 3);
+tl.to(".class", { duration: 2, rotation: "+=360" }, "spin");
+
+tl.play("spin");
+
+var nested = gsap.timeline();
+nested.to(".class2", { duration: 1, x: 200 });
+tl.add(nested, "+=3");
+```
+
+--------------------------------
+
+### Get Current Tween Iteration
+
+Source: https://gsap.com/docs/v3/GSAP/Tween/iteration%28%29
+
+Retrieves the current iteration number of a tween without modifying its state. Iteration numbering starts at 1 for the initial playthrough, incrementing by 1 with each repeat cycle.
+
+```javascript
+//gets current iteration
+var progress = myTween.iteration();
+```
+
+--------------------------------
+
+### Create GSAP Observer Instance with Configuration
+
+Source: https://gsap.com/docs/v3/Plugins/Observer/static
+
+Demonstrates how to create a new Observer instance using Observer.create(). It accepts a configuration object with properties like target, type, and event callbacks (onUp, onDown).
+
+```javascript
+Observer.create({
+  target: window, // can be any element (selector text is fine)
+  type: "wheel,touch", // comma-delimited list of what to listen for ("wheel,touch,scroll,pointer")
+  onUp: () => previous(),
+  onDown: () => next()
+});
+```
+
+--------------------------------
+
+### Create and Use a Custom Ease with SVG Path Data
+
+Source: https://gsap.com/docs/v3/Eases/CustomEase
+
+This example shows how to create a custom ease using an SVG path string and then apply it to a GSAP tween. The 'create' method takes a name and the path data. The ease can then be referenced by its name in GSAP animations.
+
+```javascript
+CustomEase.create(
+  "hop",
+  "M0,0 C0,0 0.056,0.442 0.175,0.442 0.294,0.442 0.332,0 0.332,0 0.332,0 0.414,1 0.671,1 0.991,1 1,0 1,0"
+);
+
+//now you can reference the ease by ID (as a string):
+gsap.to(element, { duration: 1, y: -100, ease: "hop" });
+```
+
+--------------------------------
+
+### Observer.getAll() - Get All Observers
+
+Source: https://gsap.com/docs/v3/Plugins/Observer
+
+Static method that returns an Array of all Observer instances that have been created and not killed. Useful for cleanup operations or managing multiple observers across your application.
+
+```APIDOC
+## Observer.getAll()
+
+### Description
+Gets an Array of all Observers that have been created (and not killed). This can be useful if, for example, your framework requires that you kill everything like on a routing change.
+
+### Method
+Static Method
+
+### Syntax
+```javascript
+Observer.getAll()
+```
+
+### Return Type
+Array (Array of Observer instances)
+
+### Parameters
+None
+
+### Response Example
+```javascript
+const allObservers = Observer.getAll();
+console.log(allObservers); // [Observer, Observer, Observer]
+
+// Kill all observers
+allObservers.forEach(observer => observer.kill());
+```
+
+### Usage Example
+```javascript
+// Create multiple observers
+Observer.create({ target: window });
+Observer.create({ target: document.getElementById("box1") });
+Observer.create({ target: document.getElementById("box2") });
+
+// Get all observers
+const observers = Observer.getAll();
+console.log(observers.length); // 3
+
+// Clean up on routing change
+observers.forEach(obs => obs.kill());
+```
+
+### Notes
+- Only returns observers that have not been killed
+- Useful for framework teardown operations
+```
+
+--------------------------------
+
+### Chaining GSAP Timeline Methods
+
+Source: https://gsap.com/docs/v3/GSAP/Timeline/to%28%29
+
+Illustrates how to chain various GSAP timeline methods like `from`, `to`, `set`, and `call` to create complex animation sequences. This example shows how to animate an element's position and opacity, call a function, and animate multiple elements with staggering. It highlights the readability of chained calls when broken onto separate lines.
+
+```javascript
+// create a timeline that calls myFunction() when it completes
+var tl = gsap.timeline({ onComplete: myFunction });
+
+// now we'll use chaining, but break each step onto a different line for readability...
+
+// tween element's x from -100
+tl.from(element, { duration: 1, x: -100 })
+
+  // then tween element's y to 50
+  .to(element, { duration: 1, y: 50 })
+
+  // then set element's opacity to 0 immediately
+  .set(element, { opacity: 0 })
+
+  // then call otherFunction()
+  .call(otherFunction)
+
+  // finally tween the rotation of all elements with the class "myClass" to 45 and stagger the start times by 0.25 seconds
+  .to(".myClass", { duration: 1.5, rotation: 45, stagger: 0.25 });
+```
+
+--------------------------------
+
+### Create ScrollSmoother Instance (JavaScript)
+
+Source: https://gsap.com/docs/v3/Plugins/ScrollSmoother
+
+This example demonstrates the minimal usage of ScrollSmoother. It creates a ScrollSmoother instance with basic configuration for smooth scrolling and enabling effects. The `smooth` property controls the duration of the catch-up, and `effects` enables parallax and lag animations.
+
+```javascript
+ScrollSmoother.create({
+  smooth: 1,
+  effects: true,
+});
+```
+
+--------------------------------
+
+### onLeaveBack Callback Example
+
+Source: https://gsap.com/docs/v3/Plugins/ScrollTrigger
+
+The onLeaveBack callback is executed when the scroll position moves backward past the trigger's start point. It receives the ScrollTrigger instance as an argument, providing access to properties like progress, direction, and isActive.
+
+```javascript
+onLeaveBack: ({progress, direction, isActive}) => console.log(progress, direction, isActive)
+```
+
+--------------------------------
+
+### Configure MotionPathHelper with Options
+
+Source: https://gsap.com/docs/v3/Plugins/MotionPathHelper
+
+This code snippet illustrates how to create and configure a MotionPathHelper instance with various options. It allows customization of path properties like color and width, selection state, start and end points, and animation duration and ease for the preview. The input is an element selector and a configuration object.
+
+```javascript
+MotionPathHelper.create("#elementID", {
+  path: "#path",
+  pathWidth: 5,
+  pathColor: "red",
+  pathOpacity: 0.6,
+  selected: true,
+  start: 0.1,
+  end: 1,
+  duration: 5,
+  ease: "power2.inOut"
+});
+```
+
+--------------------------------
+
+### Advanced GSAP ScrollTrigger Timeline Animation
+
+Source: https://gsap.com/docs/v3/Plugins/ScrollTrigger
+
+This advanced example uses GSAP's ScrollTrigger with a timeline. It features pinning the trigger element, defining start and end points, smooth scrubbing, and snapping to labels. It requires GSAP and ScrollTrigger.
+
+```javascript
+let tl = gsap.timeline({
+	// yes, we can add it to an entire timeline!
+	scrollTrigger: {
+		trigger: '.container',
+		pin: true, // pin the trigger element while active
+		start: 'top top', // when the top of the trigger hits the top of the viewport
+		end: '+=500', // end after scrolling 500px beyond the start
+		scrub: 1, // smooth scrubbing, takes 1 second to "catch up" to the scrollbar
+		snap: {
+			snapTo: 'labels', // snap to the closest label in the timeline
+			duration: { min: 0.2, max: 3 }, // the snap animation should be at least 0.2 seconds, but no more than 3 seconds (determined by velocity)
+			delay: 0.2, // wait 0.2 seconds from the last scroll event before doing the snapping
+			ease: 'power1.inOut' // the ease of the snap animation ("power3" by default)
+		}
+	}
+});
+
+// add animations and labels to the timeline
+tl.addLabel('start')
+	.from('.box p', { scale: 0.3, rotation: 45, autoAlpha: 0 })
+	.addLabel('color')
+	.from('.box', { backgroundColor: '#28a92b' })
+	.addLabel('spin')
+	.to('.box', { rotation: 360 })
+	.addLabel('end');
+```
+
+--------------------------------
+
+### GSAP Tween Ratio vs. Progress Example (JavaScript)
+
+Source: https://gsap.com/docs/v3/GSAP/Tween/ratio
+
+Demonstrates the difference between a tween's 'progress()' and its 'ratio' property. The 'ratio' reflects the eased progress, which can differ from the linear progress, especially with complex easing functions. This example uses 'power2.out' ease and pauses the tween halfway to compare the values.
+
+```javascript
+const easeFunc = gsap.parseEase("power2.out");
+const tween = gsap.to({ foo: 0 }, { foo: 10, duration: 1, ease: "power2.out" });
+tween.pause(0.5); // pause at 0.5 seconds which is halfway in this 1-second tween
+
+console.log(tween.progress()); // 0.5
+console.log(tween.ratio); // 0.875
+console.log(easeFunc(tween.progress())); // 0.875
+```
+
+--------------------------------
+
+### Create Basic Draggable Element with Horizontal Movement
+
+Source: https://gsap.com/docs/v3/Plugins/Draggable
+
+Create a minimal draggable instance that allows horizontal (x-axis) movement. The element with ID 'yourID' will become draggable along the x-axis only. This is the simplest configuration to get started with Draggable.
+
+```javascript
+Draggable.create("#yourID", {
+  type: "x"
+});
+```
+
+--------------------------------
+
+### Import GSDevTools Module
+
+Source: https://gsap.com/docs/v3/Plugins/GSDevTools
+
+Imports the GSDevTools plugin from the GSAP package. This is the standard way to include GSDevTools when using module systems like ES modules. Requires GSAP to be installed via npm or yarn.
+
+```javascript
+import { GSDevTools } from "gsap/GSDevTools";
+```
+
+--------------------------------
+
+### Controlling Immediate Rendering (JavaScript)
+
+Source: https://gsap.com/docs/v3/GSAP/Timeline/from%28%29
+
+Demonstrates how to override the default `immediateRender: true` behavior for `from()` tweens. Setting `immediateRender: false` ensures the tween's starting state is rendered only when the tween actually begins, respecting any specified delay.
+
+```javascript
+tl.from(".class", { x: 100 }, { immediateRender: false });
+```
+
+--------------------------------
+
+### Create and Visualize Custom Ease with getSVGData()
+
+Source: https://gsap.com/docs/v3/Eases/CustomEase
+
+Demonstrates how to create a CustomEase with a specific ID and then use the getSVGData() method to generate an SVG path string for visualizing the ease graphically. It takes the ease identifier and an object with dimensions and a target path element as input.
+
+```javascript
+CustomEase.create(
+  "hop",
+  "M0,0 C0,0 0.056,0.445 0.175,0.445 0.294,0.445 0.332,0 0.332,0 0.332,0 0.414,1 0.671,1 0.991,1 1,0 1,0"
+);
+
+CustomEase.getSVGData("hop", { width: 500, height: 400, path: "#ease" });
+```
+
+--------------------------------
+
+### Minimal GSAP Flip Animation Example
+
+Source: https://gsap.com/docs/v3/Plugins/Flip
+
+Illustrates the basic workflow of the GSAP Flip plugin. It involves capturing the initial state of target elements, making DOM or style modifications, and then animating from the captured state to the new state. The `duration` and `ease` properties control the animation's timing and feel.
+
+```javascript
+// grab state
+const state = Flip.getState(squares);
+  
+// Make DOM or styling changes
+switchItUp();
+  
+// Animate from the initial state to the end state
+Flip.from(state, {duration: 2, ease: "power1.inOut"});
+```
+
+--------------------------------
+
+### Create a GSDevTools Instance (JavaScript)
+
+Source: https://gsap.com/docs/v3/Plugins/GSDevTools/static
+
+Instantiates a new GSDevTools instance with optional configuration settings. This method returns a GSDevTools object that can be used for debugging animations. You can customize its behavior using properties within the config object.
+
+```javascript
+import { GSDevTools } from "gsap/GSDevTools";
+
+// Create a new GSDevTools instance with default settings
+const devTools = GSDevTools.create();
+
+// Create a new GSDevTools instance with custom settings
+const customDevTools = GSDevTools.create({
+  globalSync: true,
+  disable: false
+});
+```
+
+--------------------------------
+
+### Request Animation Frame Delay for Flip
+
+Source: https://gsap.com/docs/v3/Plugins/Flip
+
+Uses requestAnimationFrame() to defer Flip animation initiation by one tick, allowing framework rendering to complete before the animation starts. Useful as a workaround when batching is not applicable.
+
+```javascript
+requestAnimationFrame(() => Flip.from(...));
+```
+
+--------------------------------
+
+### Set 3D Transform Origin (GSAP)
+
+Source: https://gsap.com/docs/v3/GSAP/CorePlugins/CSS
+
+Sets the origin for 3D transformations by including a Z-axis value. This allows elements to transform around a point in 3D space, creating effects like rotation around a point further away or closer. The example rotates around a point 400 pixels back in the Z-axis.
+
+```javascript
+gsap.to(element, {
+  duration: 2,
+  rotationY: 360,
+  transformOrigin: "50% 50% -400px",
+});
+```
+
+--------------------------------
+
+### Visualize Custom Bounce Ease with SVG Data
+
+Source: https://gsap.com/docs/v3/Eases/CustomBounce
+
+This example demonstrates how to generate SVG path data for a custom bounce ease using the getSVGData method. This is useful for visually representing the animation curve.
+
+```javascript
+//create a CustomEase with an ID of "myBounce"
+CustomBounce.create("myBounce", {
+  strength: 0.6,
+  squash: 3,
+  squashID: "myBounce-squash",
+});
+
+//draw the ease visually in the SVG that has an ID of "ease" at 500px by 400px:
+CustomEase.getSVGData("myBounce", { width: 500, height: 400, path: "#ease" });
+```
+
+--------------------------------
+
+### Get Scroll Position with ScrollTrigger Awareness (JavaScript)
+
+Source: https://gsap.com/docs/v3/HelperFunctions/helpers/getScrollLookup
+
+The `getScrollLookup` function returns a utility function that calculates the scroll position of a given element. It accounts for ScrollTrigger configurations like pinning and container animations, and automatically adjusts to viewport resize events. It takes target elements and optional configuration options such as 'start', 'pinnedContainer', and 'containerAnimation'.
+
+```javascript
+/*
+Returns a FUNCTION that you can feed an element to get its scroll position.
+- targets: selector text, element, or Array of elements
+- config: an object with any of the following optional properties:
+- start: defaults to "top top" but can be anything like "center center", "100px 80%", etc. Same format as "start" and "end" ScrollTrigger values.
+- containerAnimation: the horizontal scrolling tween/timeline. Must have an ease of "none"/"linear".
+- pinnedContainer: if you're pinning a container of the element(s), you must define it so that ScrollTrigger can make the proper accommodations.
+*/
+function getScrollLookup(
+  targets,
+  { start, pinnedContainer, containerAnimation }
+) {
+  let triggers = gsap.utils.toArray(targets).map((el) =>
+      ScrollTrigger.create({
+        trigger: el,
+        start: start || "top top",
+        pinnedContainer: pinnedContainer,
+        refreshPriority: -10,
+        containerAnimation: containerAnimation,
+      })
+    ),
+    st = containerAnimation && containerAnimation.scrollTrigger;
+  return (target) => {
+    let t = gsap.utils.toArray(target)[0],
+      i = triggers.length;
+    while (i-- && triggers[i].trigger !== t) {}
+    if (i < 0) {
+      return console.warn("target not found", target);
+    }
+    return containerAnimation
+      ? st.start +
+          (triggers[i].start / containerAnimation.duration()) *
+            (st.end - st.start)
+      : triggers[i].start;
+  };
+}
+```
+
+--------------------------------
+
+### GSAP v3 Shorthand Transforms and Properties
+
+Source: https://gsap.com/docs/v3/GSAP/CorePlugins/CSS
+
+This section details common GSAP v3 shorthand properties and their corresponding CSS equivalents for transforms, opacity, and animation timing. It's useful for quickly applying transformations and controlling animation behavior.
+
+--------------------------------
+
+### GSAP Timeline Chaining with fromTo, to, set, and call (JavaScript)
+
+Source: https://gsap.com/docs/v3/GSAP/Timeline/fromTo%28%29
+
+This example showcases chaining multiple GSAP timeline methods, including `fromTo`, `to`, `set`, and `call`, to create a complex animation sequence. It demonstrates animating properties, calling functions, and staggering animations on multiple elements, highlighting the power and flexibility of GSAP's timeline API.
+
+```javascript
+var tl = gsap.timeline({ onComplete: myFunction });
+
+tl.fromTo(element, { x: -100 }, { duration: 1, x: 100 })
+  .to(element, { duration: 1, y: 50 })
+  .set(element, { opacity: 0 })
+  .call(otherFunction)
+  .to(".myClass", { duration: 1.5, rotation: 45, stagger: 0.25 });
+
+function myFunction() {
+  console.log("Timeline complete!");
+}
+
+function otherFunction() {
+  console.log("Called otherFunction.");
+}
+```
+
+--------------------------------
+
+### Calculate Animation End Time in GSAP Timeline
+
+Source: https://gsap.com/docs/v3/GSAP/Tween/endTime%28%29
+
+Demonstrates how to use the endTime() method to get when an animation completes on a parent timeline. Shows how the method accounts for animation insertion position, duration, and timeScale modifications. The example creates a 1-second tween, inserts it at 0.5 seconds into a timeline, and demonstrates how doubling the timeScale affects the calculated end time.
+
+```JavaScript
+var tl = gsap.timeline();
+
+//create a 1-second tween
+var tween = gsap.to(e, { duration: 1, x: 100 });
+
+//insert the tween at 0.5 seconds into the timeline
+tl.add(tween, 0.5);
+
+console.log(tween.endTime()); //1.5
+
+//double the speed of the tween, thus it'll finish in half the normal time
+tween.timeScale(2);
+
+console.log(tween.endTime()); //1
+```
