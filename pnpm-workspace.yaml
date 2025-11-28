@@ -1,0 +1,6 @@
+packages:
+  - 'frontend'
+  - 'mobile'
+  - 'backend/node-api'
+  - 'shared/ts'
+  - 'web'
